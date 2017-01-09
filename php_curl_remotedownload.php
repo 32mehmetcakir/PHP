@@ -58,6 +58,7 @@ $fileName = "MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.
 echo "Local File Name: " .$fileName . "<br />";
 echo "Remote URL     : " .$urlfile . "<br />";
 
+ob_start(); // start output buffer
 $ch = curl_init($urlfile);
 // http://www.denizyildirim.com/buyukdosya.zip sekilinde olacak
 curl_setopt($ch, CURLOPT_URL, $urlfile);
@@ -70,6 +71,7 @@ if ($from == $remotefrom)
 {
 	echo "Dosya zaten inmiş. İşlem yapılmadı!";
 	curl_close($ch); // Curl işlemini bitir
+	ob_end_clean(); // discard output buffer
 	exit;
 }
 elseif ($from > $remotefrom)
@@ -79,6 +81,7 @@ elseif ($from > $remotefrom)
 	echo "Sayfayı yenile! <br />";
 	unlink($fileName);
 	curl_close($ch); // Curl işlemini bitir
+	ob_end_clean(); // discard output buffer
 	exit;
 }	
 
@@ -95,8 +98,11 @@ curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyo
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // üstteki fonksiyonun çalışması için
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // yönlendirme varsa takip et
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // New
+curl_setopt($ch, CURLOPT_NOSIGNAL, 1); // New
 curl_exec($ch); // Curl işlemine başla
 curl_close($ch); // Curl işlemini bitir
+ob_end_clean(); // discard output buffer
 fclose($fp); // Açtığımız dosyayı kapat.
 chmod($fileName, 0644); // Dosya yazma iznini kapat.
 
@@ -107,7 +113,8 @@ echo "Tamamlanma Yüzdesi: %" .$icerik ."<br />";
 fclose($dosya);
 
 	if ((int)$icerik < 100) 
-		{
+		{		
+		usleep(2000000); // 2 saniye bekle
 		$delay=1; //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
 		header("Refresh: $delay;"); 
 		}
