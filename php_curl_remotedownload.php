@@ -1,5 +1,6 @@
 <?php
 #Kaynak: http://denizyildirim.net/2013/05/php-curl-ile-yarim-downloadlari-tamamlamak/
+#Not: "progress.txt" dosyası ilk kurulumda manuel olarak oluşturulmalıdır!!! (içeriğine ilk kurulumda 0 değeri yazılabilir)
 #$fileName = 'MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar';
 
 /**
@@ -107,7 +108,7 @@ fclose($dosya);
 
 	if ((int)$icerik < 100) 
 		{
-		$delay=25; //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
+		$delay=1; //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
 		header("Refresh: $delay;"); 
 		}
 
