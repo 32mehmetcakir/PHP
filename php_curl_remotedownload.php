@@ -88,7 +88,7 @@ echo "Local Size	: ". filesize($fileName). " Byte\n";
 $tamamlanma_yuzdesi = filesize($fileName) / $remotefrom * 100;
 echo "Tamamlanma Yüzdesi: %" .$tamamlanma_yuzdesi ."<br />";
 echo "Download Hızı	: " .(int)$dlhizi / 1024 . " KB/sn<br />";
-echo "<p><b>ÖZET:</b></p></br>";
+echo "<p><b>ÖZET:</b></p>";
 print_r($curl_dump); // Detaylı curl özeti
 
 // Tamamlanma yüzdesi eksikse sayfa refresh edilecek
