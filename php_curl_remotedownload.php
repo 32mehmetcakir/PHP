@@ -6,7 +6,7 @@
     Files larger that php memory will result in corrupted data
 */
 session_start(); //to ensure you are using same session
-# ob_start(); // start output buffer
+ob_start(); // start output buffer
 # set_time_limit(40);
 ini_set('max_execution_time', 40);
 ini_set('memory_limit', '512M');
@@ -64,7 +64,7 @@ if (file_exists($fileName))
 	echo "RemoteSize	: " . $remotefrom . " Byte<br />";
 	if ($from == $remotefrom)
 	{
-		echo "Dosya zaten inmiş. İşlem yapılmadı! Remote Size == Local Size birbirine eşit :)";
+		echo "Dosya zaten inmiş. ==> İşlem yapılmadı! ==> Remote Size == Local Size birbirine eşit :)";
 		curl_close($ch); // Curl işlemini bitir
 		exit;
 	}
@@ -123,5 +123,5 @@ print_r($curl_dump); // Detaylı curl özeti
 		}
 		*/
 echo "<b>Done</b>";
-# ob_end_flush(); // Çıktı tamponunu temizler (siler) ve tamponu kapatır
+ob_end_flush(); // Çıktı tamponunu temizler (siler) ve tamponu kapatır
 ?>
