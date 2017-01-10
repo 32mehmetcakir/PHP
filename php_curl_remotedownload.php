@@ -33,7 +33,7 @@ function remote_file_size($url)
     return (int) $data['Content-Length'];
 }
 
-$urlfile = "http://www.getmega.net/download/file_7588faa16f/MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
+$urlfile = "http://dl.generatorlinkpremium.com/?id=y3sA3C0ffLbpG5n9ragYYLGhl&h=1";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
@@ -98,6 +98,8 @@ print_r($curl_dump); // Detaylı curl özeti
 		$delay=abs(($startTime + $timeout) - time()); //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
 		echo "\n <b>$delay saniye sonra sayfa otomatik olarak REFRESH edilecektir...</b>\n";
 		echo "<center><b>Lütfen beklemeye devam ediniz!!!</b></center>\n";
+		usleep(1000000 * $delay);
+		$delay = 1;
 		// Timeout buraya gelsin SON
 		header("Refresh: $delay;");
 		}
