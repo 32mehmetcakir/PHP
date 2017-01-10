@@ -85,7 +85,7 @@ $fp = fopen ($fileName, 'a'); // İndirdiğimiz dosyamızın kaldığı yerden t
 # curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36');
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
-curl_setopt($ch, CURLOPT_TIMEOUT, 5); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
+curl_setopt($ch, CURLOPT_TIMEOUT, 4); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
 # curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyonumuz
 curl_setopt($ch, CURLOPT_NOPROGRESS, true); // üstteki fonksiyonun çalışması için
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
@@ -124,4 +124,6 @@ print_r($curl_dump); // Detaylı curl özeti
 		*/
 echo "<b>Done</b>";
 ob_end_flush(); // Çıktı tamponunu temizler (siler) ve tamponu kapatır
+session_unset();
+session_destroy(); //destroy the session
 ?>
