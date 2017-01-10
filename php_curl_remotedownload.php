@@ -53,7 +53,7 @@ $urlfile = "https://doughty-surprise.000webhostapp.com/MT6572__alps___tangxun657
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
-$ch = curl_init($urlfile); // oturum baslat
+$ch = curl_init(); // oturum baslat
 // http://www.denizyildirim.com/buyukdosya.zip sekilinde olacak
 curl_setopt($ch, CURLOPT_URL, $urlfile);
 if (file_exists($fileName)) 
@@ -90,10 +90,10 @@ curl_setopt($ch, CURLOPT_TIMEOUT, 4); // download işlemi için ne kadar uğraş
 curl_setopt($ch, CURLOPT_NOPROGRESS, true); // üstteki fonksiyonun çalışması için
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // yönlendirme varsa takip et
-# curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // New
+# curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Yorum satırı olarak kalmalı 0 kb sorunu buradan kaynaklanıyor.
 # curl_setopt($ch, CURLOPT_BUFFERSIZE, 4096);	// New
 
-curl_exec($ch); // Curl işlemine başla
+$data = curl_exec($ch); // Curl işlemine başla
 $curl_dump = curl_getinfo($ch); // İstatistik değerlerini dizi şeklinde al
 $dlhizi = $curl_dump['speed_download']; // curl_getinfo($ch, CURLINFO_SPEED_DOWNLOAD);	// New byte/sn cinsinden
 curl_close($ch); // Curl işlemini bitir
