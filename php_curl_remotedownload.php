@@ -33,7 +33,7 @@ function remote_file_size($url)
     return (int) $data['Content-Length'];
 }
 
-$urlfile = "http://www.mega-debrit.com/index.php/MEGA/mega_eab4ba20d6/www.mega-debrit.com_MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
+$urlfile = "http://www.getmega.net/download/file_7588faa16f/MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
@@ -68,7 +68,7 @@ $fp = fopen ($fileName, 'a'); // İndirdiğimiz dosyamızın kaldığı yerden t
 # curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36');
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
-curl_setopt($ch, CURLOPT_TIMEOUT, 20); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
+curl_setopt($ch, CURLOPT_TIMEOUT, 18); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
 ## curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyonumuz
 curl_setopt($ch, CURLOPT_NOPROGRESS, true); // üstteki fonksiyonun çalışması için (Default: false)
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
@@ -95,7 +95,7 @@ print_r($curl_dump); // Detaylı curl özeti
 	if ($tamamlanma_yuzdesi < 100) 
 		{
 		// Timeout buraya gelsin			
-		$delay=($startTime + $timeout) - time(); //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
+		$delay=abs(($startTime + $timeout) - time()); //Where 0 is an example of time Delay you can use 5 for 5 seconds for example !
 		echo "\n <b>$delay saniye sonra sayfa otomatik olarak REFRESH edilecektir...</b>\n";
 		echo "<center><b>Lütfen beklemeye devam ediniz!!!</b></center>\n";
 		// Timeout buraya gelsin SON
