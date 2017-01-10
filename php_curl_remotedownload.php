@@ -46,13 +46,13 @@ if (file_exists($fileName))
 	/* Eğer inen dosya remote dosyadan eşit yada büyükse bu işlemi yap */
 	$remotefrom = remote_file_size($urlfile);
 	echo "RemoteSize	: " . $remotefrom . " Byte<br />";
-	if (is_int($from) && $from == $remotefrom)
+	if (is_int($remotefrom) && $from == $remotefrom)
 	{
 		echo "<b>Dosya zaten inmiş. ==> İşlem yapılmadı! ==> Remote Size == Local Size birbirine eşit :)</b>";
 		curl_close($ch); // Curl işlemini bitir
 		exit;
 	}
-	elseif (is_int($from) && $from > $remotefrom)
+	elseif (is_int($remotefrom) && $from > $remotefrom)
 	{
 		echo "Local file ile Remote file size değerleri birbirinden farklı! :((<br />";
 		echo "Dosya silindi! <br />";
