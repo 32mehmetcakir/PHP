@@ -34,8 +34,8 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
        elseif ($progress >= 99.999) // Kaynak5
 		{
 			# echo "Local File Size:<b> $localfilesize_current Byte </b>\n";
-			# echo "<center><b>Download %99 Tamamlandı. Download hızı 10KB olarak düşürülmüştür.</b></center>\n";
-			curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*10);
+			# echo "<center><b>Download %99 Tamamlandı. Download hızı 5KB olarak düşürülmüştür.</b></center>\n";
+			curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*5);
 		}
 	}
 }
