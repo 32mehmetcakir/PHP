@@ -31,11 +31,11 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 		$progress = $localfilesize_current / $download_size  * 100;			
 		if ($progress == 100)
 			curl_setopt($resource, CURLOPT_TIMEOUT_MS, 1); // curl sona erdi
-       elseif ($progress >= 99.999) // Kaynak5
+       elseif ($progress >= 99.99) // Kaynak5
 		{
 			# echo "Local File Size:<b> $localfilesize_current Byte </b>\n";
-			# echo "<center><b>Download %99 Tamamlandı. Download hızı 5KB olarak düşürülmüştür.</b></center>\n";
-			curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*5);
+			# echo "<center><b>Download %99 Tamamlandı. Download hızı 10KB olarak düşürülmüştür.</b></center>\n";
+			curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*10);
 		}
 	}
 }
