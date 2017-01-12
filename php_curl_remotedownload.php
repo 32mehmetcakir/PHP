@@ -24,7 +24,6 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 {	
     if ($download_size > 0)
 	{		
-		flush(); 	// Tamponu boşalt
 		global $fileName; // Kaynak3
 		$localfilesize = filesize(dirname(__FILE__)."/".$fileName);	// Kaynak4
 		$localfilesize_current = $localfilesize + $downloaded; // son dosya boyutu
@@ -33,17 +32,7 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 		if ($progress == 100)
 			curl_setopt($resource, CURLOPT_TIMEOUT_MS, 1); // curl sona erdi
        elseif ($progress >= 99) // Kaynak5
-		{
-			# echo "Local File Size:<b> $localfilesize_current Byte </b>\n";
-			# echo "<center><b>Download %99 Tamamlandı. Download hızı 512Byte olarak düşürülmüştür.</b></center>\n";
-			# curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1);
-			curl_setopt($resource, CURLOPT_BUFFERSIZE, 1);
-		}
-/*		elseif ($progress >= 99)
-		{
-			// 0.1 saniye bekle
-			usleep(100000);
-		}	*/
+			curl_setopt($resource, CURLOPT_BUFFERSIZE, 1); // curl buffersize 1 byte/s
 	}
 }
 	/**
@@ -63,7 +52,6 @@ function remote_file_size($url)
 }
 
 $urlfile = "http://www.getmega.net/download/file_7588faa16f/MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
-# $urlfile = "https://doughty-surprise.000webhostapp.com/bootx64.rar";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
@@ -87,7 +75,7 @@ if (file_exists($fileName))
 		echo "Local file ile Remote file size değerleri birbirinden farklı! :((<br />";
 		echo "Dosya silindi! <br />";
 		echo "Sayfayı yenile! <br />";
-#		unlink($fileName);
+		unlink($fileName);
 		curl_close($ch); // Curl işlemini bitir
 		exit;
 	}	
@@ -95,7 +83,6 @@ if (file_exists($fileName))
 }
 $fp = fopen ($fileName, 'a'); // İndirdiğimiz dosyamızın kaldığı yerden tamamlayacak şekilde aç (Default değeri 'a+' dır.)
 // Servera hangi browser kullandığımızı gönderelim
-# curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36');
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
 curl_setopt($ch, CURLOPT_TIMEOUT, 18); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
@@ -103,10 +90,6 @@ curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyo
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // üstteki fonksiyonun çalışması için (Default: false)
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // yönlendirme varsa takip et
-## curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Yorum satırı olarak kalmalı 0 kb sorunu buradan kaynaklanıyor.
-# curl_setopt($ch, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*10);
-# curl_setopt($ch, CURLOPT_PROXY, "165.84.188.67:80");	// Proxy New
-//curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
 
 curl_exec($ch); // Curl işlemine başla
 $curl_dump = curl_getinfo($ch); // İstatistik değerlerini dizi şeklinde al
@@ -120,7 +103,7 @@ chmod($fileName, 0644); // Dosya yazma iznini kapat.
 echo "Local Size	: ". filesize($fileName). " Byte\n";
 @$tamamlanma_yuzdesi = filesize($fileName) / $remotefrom * 100;
 echo "Tamamlanma Yüzdesi: %" .$tamamlanma_yuzdesi ."<br />";
-echo "Download Hızı	: " .(int)$dlhizi / 1024 . " KB/sn<br />";
+echo "Download Hızı	: " .(int)$dlhizi / 1024 . " KB/s<br />";
 echo "<p><b>ÖZET:</b></p>";
 print_r($curl_dump); // Detaylı curl özeti
 
@@ -132,7 +115,12 @@ print_r($curl_dump); // Detaylı curl özeti
 		echo "\n <b>$delay saniye sonra sayfa otomatik olarak REFRESH edilecektir...</b>\n";
 		echo "<center><b>Lütfen beklemeye devam ediniz!!!</b></center>\n";
 		// Timeout buraya gelsin SON
-		header("Refresh: $delay;");
+		ob_end_flush(); // Çıktı tamponunu temizler (siler) ve tamponu kapatır
+		session_unset();
+		session_destroy(); //destroy the session
+		header("Refresh: $delay;");	// Gecikmeli refresh yapma
+		/* Yönlendirme sonrası herhangi bir kodun çalıştırılmamasını sağlayalım. */
+		exit;
 		}
 // refresh son..	
 echo "<b>Done</b></pre>";
