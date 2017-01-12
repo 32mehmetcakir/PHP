@@ -4,6 +4,7 @@
 # Kaynak3: http://stackoverflow.com/questions/9119963/php-variable-defined-outside-callback-function-is-unaccessible-inside-the-functi
 # Kaynak4: http://stackoverflow.com/questions/4645082/get-absolute-path-of-current-script
 # Kaynak5: http://php.net/manual/tr/language.operators.comparison.php
+# Kaynak6: http://sanalkurs.net/php-ve-html-ile-otomatik-sayfa-yenileme-islemleri-1136.html
 
 session_start(); //to ensure you are using same session
 ob_start(); // start output buffer
@@ -118,7 +119,7 @@ print_r($curl_dump); // Detaylı curl özeti
 		ob_end_flush(); // Çıktı tamponunu temizler (siler) ve tamponu kapatır
 		session_unset();
 		session_destroy(); //destroy the session
-		header("Refresh: $delay;");	// Gecikmeli refresh yapma
+		header("Refresh: $delay;");	// Gecikmeli refresh yapma // Kaynak6
 		/* Yönlendirme sonrası herhangi bir kodun çalıştırılmamasını sağlayalım. */
 		exit;
 		}
