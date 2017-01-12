@@ -32,7 +32,7 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 	
 		if ($progress == 100)
 			curl_setopt($resource, CURLOPT_TIMEOUT_MS, 1); // curl sona erdi
-       elseif ($progress >= 99.997) // Kaynak5
+       elseif ($progress >= 99) // Kaynak5
 		{
 			# echo "Local File Size:<b> $localfilesize_current Byte </b>\n";
 			# echo "<center><b>Download %99 Tamamlandı. Download hızı 512Byte olarak düşürülmüştür.</b></center>\n";
@@ -62,8 +62,8 @@ function remote_file_size($url)
     return (int) $data['Content-Length'];
 }
 
-$urlfile = "http://www.mega-debrit.com/index.php/MEGA/mega_eab4ba20d6/www.mega-debrit.com_MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
-#$urlfile = "https://doughty-surprise.000webhostapp.com/bootx64.rar";
+$urlfile = "http://www.getmega.net/download/file_7588faa16f/MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
+# $urlfile = "https://doughty-surprise.000webhostapp.com/bootx64.rar";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
