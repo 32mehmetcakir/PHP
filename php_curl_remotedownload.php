@@ -39,11 +39,11 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 			# curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1);
 			curl_setopt($resource, CURLOPT_BUFFERSIZE, 1);
 		}
-		elseif ($progress >= 99)
+/*		elseif ($progress >= 99)
 		{
 			// 0.1 saniye bekle
 			usleep(100000);
-		}
+		}	*/
 	}
 }
 	/**
