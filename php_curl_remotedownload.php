@@ -28,14 +28,21 @@ function progress ($resource, $download_size, $downloaded, $upload_size, $upload
 		global $fileName; // Kaynak3
 		$localfilesize = filesize(dirname(__FILE__)."/".$fileName);	// Kaynak4
 		$localfilesize_current = $localfilesize + $downloaded; // son dosya boyutu
-		$progress = $localfilesize_current / $download_size  * 100;			
+		$progress = $localfilesize_current / $download_size  * 100;		
+	
 		if ($progress == 100)
 			curl_setopt($resource, CURLOPT_TIMEOUT_MS, 1); // curl sona erdi
-       elseif ($progress >= 99.99) // Kaynak5
+       elseif ($progress >= 99.997) // Kaynak5
 		{
 			# echo "Local File Size:<b> $localfilesize_current Byte </b>\n";
-			# echo "<center><b>Download %99 Tamamlandı. Download hızı 10KB olarak düşürülmüştür.</b></center>\n";
-			curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*10);
+			# echo "<center><b>Download %99 Tamamlandı. Download hızı 512Byte olarak düşürülmüştür.</b></center>\n";
+			# curl_setopt($resource, CURLOPT_MAX_RECV_SPEED_LARGE, 1);
+			curl_setopt($resource, CURLOPT_BUFFERSIZE, 1);
+		}
+		elseif ($progress >= 99)
+		{
+			// 0.1 saniye bekle
+			usleep(100000);
 		}
 	}
 }
@@ -55,7 +62,8 @@ function remote_file_size($url)
     return (int) $data['Content-Length'];
 }
 
-$urlfile = "http://dl.generatorlinkpremium.com/?id=wTSdvdKSONy0cMfXURx8ao0Me&h=1";
+$urlfile = "http://www.mega-debrit.com/index.php/MEGA/mega_eab4ba20d6/www.mega-debrit.com_MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
+#$urlfile = "https://doughty-surprise.000webhostapp.com/bootx64.rar";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
@@ -79,7 +87,7 @@ if (file_exists($fileName))
 		echo "Local file ile Remote file size değerleri birbirinden farklı! :((<br />";
 		echo "Dosya silindi! <br />";
 		echo "Sayfayı yenile! <br />";
-		unlink($fileName);
+#		unlink($fileName);
 		curl_close($ch); // Curl işlemini bitir
 		exit;
 	}	
@@ -97,6 +105,8 @@ curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // yönlendirme varsa takip et
 ## curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Yorum satırı olarak kalmalı 0 kb sorunu buradan kaynaklanıyor.
 # curl_setopt($ch, CURLOPT_MAX_RECV_SPEED_LARGE, 1024*10);
+# curl_setopt($ch, CURLOPT_PROXY, "165.84.188.67:80");	// Proxy New
+//curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
 
 curl_exec($ch); // Curl işlemine başla
 $curl_dump = curl_getinfo($ch); // İstatistik değerlerini dizi şeklinde al
