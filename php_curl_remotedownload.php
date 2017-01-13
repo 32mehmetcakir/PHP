@@ -52,7 +52,7 @@ function remote_file_size($url)
     return (int) $data['Content-Length'];
 }
 
-$urlfile = "http://www.getmega.net/download/file_7588faa16f/MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar";
+$urlfile = "http://www.mega-debrit.com/index.php/MEGA/mega_d7893f62b6/www.mega-debrit.com_MT6572__Samsung__SM-J500HDS__Samsung_J500HDS__4.4.2__ALPS.KK1.MP7.V1.zip";
 $fileName = "leyla.rar";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
@@ -86,7 +86,7 @@ $fp = fopen ($fileName, 'a'); // İndirdiğimiz dosyamızın kaldığı yerden t
 // Servera hangi browser kullandığımızı gönderelim
 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36');
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
-curl_setopt($ch, CURLOPT_TIMEOUT, 18); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
+curl_setopt($ch, CURLOPT_TIMEOUT, 17); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
 curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyonumuz
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // üstteki fonksiyonun çalışması için (Default: false)
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
