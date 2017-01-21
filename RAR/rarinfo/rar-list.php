@@ -28,6 +28,7 @@
       else
       echo "<br />Listing compressed file: {$file['name']}\n";      
     }
+ $rar->close(); // Close rar handle
  echo "<br />--------------------------------------------------------------------------------------<br />";
  echo "<b><font color='green'>Done..</font></b>";
  ?>
