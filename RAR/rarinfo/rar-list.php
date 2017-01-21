@@ -1,5 +1,5 @@
  <?php
- $rarfilename = '../MT6572__alps___tangxun6572_we_l__5.1__ALPS.L1.MP6.V2.8_TANGXUN6572.WE.L.rar';
+ $rarfilename = '../gimagex.rar';
  
  require_once dirname(__FILE__).'/rarinfo.php';
     // Load the RAR file or data
@@ -19,8 +19,10 @@
     // Process the file list
     $files = $rar->getFileList();
     foreach ($files as $file) {
-      if ($file['pass'] == true)
-        echo "<br />File is passworded: {$file['name']}\n";
+      if ($file['pass'] == true) {
+        echo "<br /><font color='blue'>File is passworded:</font><b> {$file['name']}\n</b>";
+        continue;
+        }
       if ($file['compressed'] == false)
         echo "<br /><font color='red'>Listing uncompressed(Directory or 0 Byte) file:</font><b> {$file['name']}\n</b>";
       else
