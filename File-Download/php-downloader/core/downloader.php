@@ -94,18 +94,15 @@ class Downloader
 			$this->_download_mode = $download_mode;
 			
 			// Check if File exists and is file or not
-			if(!is_file($to_download ) && !remote_file_exists($to_download)) // added && !remote_file_exists($to_download)
-			{
-				
-				
+			if(!remote_file_exists($to_download)) // replaced: !is_file($to_download )
+			{			
 				// Not Found
 				// $this->_setHeader( 'HTTP/1.0 404 File Not Found' );
 				
 				// exit();
 				$this->httpError( 404, 'File Not Found' );
-
 			}// Try To Open File for read
-			else if( !is_readable( $to_download ) || !( $this->_data = fopen( $to_download, 'rb' ) ) )
+			else if(!is_readable($to_download) || !($this->_data = fopen($to_download, 'rb'))) // replaced: !is_readable($to_download )
 			{
 				// File is not readable, couldnot open
 				// $this->_setHeader( 'HTTP/1.0 403 Forbidden File Not Accissible.' );
