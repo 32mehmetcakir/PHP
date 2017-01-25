@@ -102,7 +102,7 @@ class Downloader
 				// exit();
 				$this->httpError( 404, 'File Not Found' );
 			}// Try To Open File for read
-			else if(!is_readable($to_download) || !($this->_data = fopen($to_download, 'rb'))) // replaced: !is_readable($to_download )
+			else if(!remote_file_exists($to_download) || !($this->_data = fopen($to_download, 'rb'))) // replaced: !is_readable($to_download )
 			{
 				// File is not readable, couldnot open
 				// $this->_setHeader( 'HTTP/1.0 403 Forbidden File Not Accissible.' );
