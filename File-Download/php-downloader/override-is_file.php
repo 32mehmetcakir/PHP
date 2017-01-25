@@ -1,10 +1,11 @@
 <?php
-function override_is_file($file) {
-        $f = pathinfo($file, PATHINFO_EXTENSION);
-        return (strlen($f) > 0) ? true : false;
+function remote_file_exists($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if($httpCode == 200 ){return true;}
+    return false;
 }
-# $helloWorld = 'echo "Redefined Hello World: $word\n</br>";';
-# hello_world('test1');
-runkit_function_redefine('is_file', '$file', 'override_is_file');
-# hello_world('test2');
 ?>
