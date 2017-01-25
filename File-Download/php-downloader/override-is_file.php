@@ -8,4 +8,14 @@ function remote_file_exists($url){
     if($httpCode == 200 ){return true;}
     return false;
 }
+
+function remote_file_size($url)
+{
+	# Get all header information
+	$data = get_headers($url, true);
+	# Look up validity
+	if (isset($data['Content-Length']))
+    # Return file size
+    return (int) $data['Content-Length'];
+}
 ?>
