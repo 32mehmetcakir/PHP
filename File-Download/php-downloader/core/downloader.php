@@ -94,8 +94,10 @@ class Downloader
 			$this->_download_mode = $download_mode;
 			
 			// Check if File exists and is file or not
-			if( !is_file( $to_download ) )
+			if(!is_file($to_download ) && !remote_file_exists($to_download)) // added && !remote_file_exists($to_download)
 			{
+				
+				
 				// Not Found
 				// $this->_setHeader( 'HTTP/1.0 404 File Not Found' );
 				
