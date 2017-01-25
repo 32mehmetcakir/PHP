@@ -112,7 +112,7 @@ class Downloader
 				$this->httpError( 403, 'File Not Accissible' );
 			}
 
-			$this->_full_size = filesize( $to_download );
+			$this->_full_size = remote_file_size($to_download); // replaced: filesize($to_download)
 
 			$info = pathinfo( $to_download );
 
