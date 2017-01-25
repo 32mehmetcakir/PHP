@@ -122,7 +122,7 @@ class Downloader
 
 			$this->_mime = $this->_getMimeOf( $this->_file_extension );
 
-			$this->_last_modified_time = filemtime( $to_download );
+			$this->_last_modified_time = filemtime_remote($to_download); // replaced: filemtime($to_download)
 
 			
 
