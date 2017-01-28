@@ -2,6 +2,8 @@
 require_once dirname(__FILE__)."/dUnzip2.inc.php";
 require_once dirname(__FILE__)."/dZip.inc.php";
 
+ini_set('max_execution_time', 0);
+ini_set('memory_limit', '1024M');
 ######## Create a ZIP file dinamically ########
 # // Initialize dZip class
 # echo "Initializing dZip class...<br>";
