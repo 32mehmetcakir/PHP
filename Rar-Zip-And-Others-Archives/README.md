@@ -1,4 +1,16 @@
 Başarısızlığı test edilen PHP ZİP ve türevlerini içeren scriptler:
-* Zipper
-* php-zip
-* PHPZip
+* Zipper                (github)
+* php-zip               (github)
+* PHPZip                (github)
+* pclzip-2-8-2
+* unzip-2013-09-02.zip  (?)
+* distill               (github)
+* filesystem            (github)
+* filesystem (1)        (github)
+* php-archive           (github)
+* Pimple                (github)
+* process               (github)
+* support               (github)
+* UnifiedArchive        (github)
+* Unzip                 (github)
+* Zippy                 (github)
