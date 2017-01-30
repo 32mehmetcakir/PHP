@@ -9,7 +9,7 @@
 session_start(); //to ensure you are using same session
 ob_start(); // start output buffer
 # set_time_limit(40);
-ini_set('max_execution_time', 40);
+ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
 // Timeout
@@ -86,7 +86,7 @@ $fp = fopen ($fileName, 'a'); // İndirdiğimiz dosyamızın kaldığı yerden t
 // Servera hangi browser kullandığımızı gönderelim
 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36');
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
-curl_setopt($ch, CURLOPT_TIMEOUT, 17); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
+curl_setopt($ch, CURLOPT_TIMEOUT, 18); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
 curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyonumuz
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // üstteki fonksiyonun çalışması için (Default: false)
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
