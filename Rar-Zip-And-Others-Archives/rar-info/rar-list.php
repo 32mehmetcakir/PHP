@@ -1,11 +1,7 @@
- <?php
- $rarfilename = '../abc.rar';
- 
- $fullpathrarfilename = realpath($rarfilename);
- echo "<b>" . $fullpathrarfilename . " |:| <font color='DarkOrange'>" . filesize($fullpathrarfilename) . ' bytes' . "</font></b><br />";
- echo "=========================================================\n";
- 
- require_once dirname(__FILE__).'/rarinfo.php';
+<?php
+   require_once dirname(__FILE__).'/rarinfo.php';
+   
+ $rarfilename = '../zipfile/ext/GT-S7582 MT6572__NAND__mbk72_wet_lca.rar';
     // Load the RAR file or data
     $rar = new RarInfo;
     $rar->open($rarfilename); // or $rar->setData($data);
@@ -19,6 +15,17 @@
       echo "Archive is password encrypted\n";
      # exit;
     }
+	
+ // Rar arşivinin özetini çıkartma: rar version gibi
+ $rarsummery = $rar->getSummary();
+ $rarsummery['file_size'] .= '<b><font color="DarkOrange"> Byte</font></b>';
+ echo "====================================================| ";
+ echo "<b> RAR ARŞİV ÖZETİ: </b>";
+ echo " |====================================================";
+ echo "<pre>\n";
+ print_r($rarsummery);
+ echo "</pre>";
+ echo "==========================================================================================================================";
  
     // Process the file list
     $files = $rar->getFileList();
