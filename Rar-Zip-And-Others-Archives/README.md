@@ -14,3 +14,6 @@ Başarısızlığı test edilen PHP ZİP ve türevlerini içeren scriptler:
 * UnifiedArchive        (github)
 * Unzip                 (github)
 * Zippy                 (github)
+-------------------------------------------------------------------
+Başarısızlığı test edilen PHP RAR ve türevlerini içeren scriptler:
+* RarArchiver         (github)(dahili rararchive sınıfını kullanmıyor ama arşivi çıkartıyor ama okunabilir değil, bu konuda sorunları var!, PHP 7 de test edildi.)
