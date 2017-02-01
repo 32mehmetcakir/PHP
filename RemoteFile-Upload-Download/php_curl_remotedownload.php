@@ -5,22 +5,18 @@
 # Kaynak4: http://stackoverflow.com/questions/4645082/get-absolute-path-of-current-script
 # Kaynak5: http://php.net/manual/tr/language.operators.comparison.php
 # Kaynak6: http://sanalkurs.net/php-ve-html-ile-otomatik-sayfa-yenileme-islemleri-1136.html
-
 session_start(); //to ensure you are using same session
 ob_start(); // start output buffer
 # set_time_limit(40);
 ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
-
 // Timeout
 $startTime = time();
 $timeout = 29;   //timeout in seconds
-
 echo "<pre>";
 echo "<b>Loading ...<br /></b>";
 # ob_flush();
 # flush();
-
 function progress ($resource, $download_size, $downloaded, $upload_size, $uploaded)
 {	
     if ($download_size > 0)
@@ -51,9 +47,8 @@ function remote_file_size($url)
     # Return file size
     return (int) $data['Content-Length'];
 }
-
-$urlfile = "http://www.mega-debrit.com/index.php/MEGA/mega_d7893f62b6/www.mega-debrit.com_MT6572__Samsung__SM-J500HDS__Samsung_J500HDS__4.4.2__ALPS.KK1.MP7.V1.zip";
-$fileName = "leyla.rar";
+$urlfile = "http://memo243.tigrimigri.com/phprft/downloads/babo.zip";
+$fileName = "babo.zip";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
 $ch = curl_init(); // oturum baslat
@@ -61,7 +56,7 @@ $ch = curl_init(); // oturum baslat
 curl_setopt($ch, CURLOPT_URL, $urlfile);
 if (file_exists($fileName)) 
 { // Eğer daha önce indirilmişse
-	$from = filesize($fileName); // nekadarı indiğini öğren
+	$from = filesize(dirname(__FILE__). '/' .$fileName); // nekadarı indiğini öğren
 	/* Eğer inen dosya remote dosyadan eşit yada büyükse bu işlemi yap */
 	$remotefrom = remote_file_size($urlfile);
 	echo "RemoteSize	: " . $remotefrom . " Byte<br />";
@@ -88,10 +83,9 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleW
 @chmod($fileName, 0755); // kayıtlı dosyaya yazma hakkımız yoksa o hakkı verelim
 curl_setopt($ch, CURLOPT_TIMEOUT, 18); // download işlemi için ne kadar uğraşsın (Default: 1950 saniye)
 curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress'); // Progress-bar fonksiyonumuz
-curl_setopt($ch, CURLOPT_NOPROGRESS, false); // üstteki fonksiyonun çalışması için (Default: false)
+curl_setopt($ch, CURLOPT_NOPROGRESS, true); // üstteki fonksiyonun çalışması için (Default: false)
 curl_setopt($ch, CURLOPT_FILE, $fp); // Curl işleminin dosya download olduğunu belirtiyoruz
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // yönlendirme varsa takip et
-
 curl_exec($ch); // Curl işlemine başla
 $curl_dump = curl_getinfo($ch); // İstatistik değerlerini dizi şeklinde al
 $dlhizi = $curl_dump['speed_download']; // curl_getinfo($ch, CURLINFO_SPEED_DOWNLOAD);	// New byte/sn cinsinden
@@ -100,14 +94,13 @@ fclose($fp); // Açtığımız dosyayı kapat.
 // 2 saniye bekle
 usleep(2000000);
 chmod($fileName, 0644); // Dosya yazma iznini kapat.
-
-echo "Local Size	: ". filesize($fileName). " Byte\n";
-@$tamamlanma_yuzdesi = filesize($fileName) / $remotefrom * 100;
+$fileSize = filesize(dirname(__FILE__). '/' .$fileName); //Fix INF Error
+echo "Local Size	: ". $fileSize . " Byte\n";
+$tamamlanma_yuzdesi = $fileSize / remote_file_size($urlfile) * 100;
 echo "Tamamlanma Yüzdesi: %" .$tamamlanma_yuzdesi ."<br />";
 echo "Download Hızı	: " .(int)$dlhizi / 1024 . " KB/s<br />";
 echo "<p><b>ÖZET:</b></p>";
 print_r($curl_dump); // Detaylı curl özeti
-
 // Tamamlanma yüzdesi eksikse sayfa refresh edilecek
 	if ($tamamlanma_yuzdesi < 100) 
 		{
