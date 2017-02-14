@@ -46,6 +46,7 @@ if (isset($_GET['code']))
 	
 	// İçeriği dosyaya yazalım	-> Kaynak3
 	file_put_contents($yandex_tokenfile, $result->access_token, FILE_TEXT);	#Kaynak3
+	chmod($yandex_tokenfile, 0600); // Dosya yazma iznini kapat. (Sadece sahibi yazar ve okur, diğerleri erişemez grubu da dahil)
 	
 	// yandex-upload.php dosyasına gitmesi için mesaj verelim ve link ekleyelim
 	echo "<br /><p><b>Token değeri başarılı bir şekilde alındı ve ilgili dosyaya yazıldı.</b></p><br />";
