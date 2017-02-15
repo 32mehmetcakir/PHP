@@ -47,7 +47,9 @@ function remote_file_size($url)
     # Return file size
     return (int) $data['Content-Length'];
 }
-$urlfile = "http://memo243.tigrimigri.com/phprft/downloads/babo.zip";
+// Google Drive/Docs Direct Download Yöntemini kullan:
+$urlfile = "https://docs.google.com/uc?id=0B8zaLWpTPhftQmdTTkl0eElIQlU&export=download";
+#$urlfile = "http://rapidleech.tk/files/CM_L.zip";
 $fileName = "babo.zip";
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
