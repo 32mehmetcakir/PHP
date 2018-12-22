@@ -50,7 +50,10 @@ function remote_file_size($url)
 // Google Drive/Docs Direct Download Yöntemini kullan:
 $urlfile = "https://docs.google.com/uc?id=0B8zaLWpTPhftQmdTTkl0eElIQlU&export=download";
 #$urlfile = "http://rapidleech.tk/files/CM_L.zip";
-$fileName = "babo.zip";
+#$fileName = "babo.zip";
+// Yeni -> $urlfile değişkeninin son / array değeri bize filenameyi otomatik verir
+$filenameArray = explode("/", $urlfile); // $urlfile değişkeni / ile bölündü ve bir array dizisi oldu
+$fileName = end($filenameArray);	// $filenameArray array olan değişkeninin son değeri alındı.
 echo "Local File Name	: " .$fileName . "<br />";
 echo "Remote URL	: " .$urlfile . "<br />";
 $ch = curl_init(); // oturum baslat
