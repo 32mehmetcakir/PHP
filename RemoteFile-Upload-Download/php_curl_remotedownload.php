@@ -5,6 +5,8 @@
 # Kaynak4: http://stackoverflow.com/questions/4645082/get-absolute-path-of-current-script
 # Kaynak5: http://php.net/manual/tr/language.operators.comparison.php
 # Kaynak6: http://sanalkurs.net/php-ve-html-ile-otomatik-sayfa-yenileme-islemleri-1136.html
+# Kaynak7: http://webinyo.com/php-explode-fonksiyonu-kullanimi-cumleyi-parcalara-ayirma.html
+# Kaynak8: http://www.phpkodlari.com/php-mysql/bir-dizideki-son-elemani-bulmak/
 session_start(); //to ensure you are using same session
 ob_start(); // start output buffer
 # set_time_limit(40);
@@ -50,7 +52,6 @@ function remote_file_size($url)
 // Google Drive/Docs Direct Download Yöntemini kullan:
 $urlfile = "https://docs.google.com/uc?id=0B8zaLWpTPhftQmdTTkl0eElIQlU&export=download";
 #$urlfile = "http://rapidleech.tk/files/CM_L.zip";
-#$fileName = "babo.zip";
 // Yeni -> $urlfile değişkeninin son / array değeri bize filenameyi otomatik verir
 $filenameArray = explode("/", $urlfile); // $urlfile değişkeni / ile bölündü ve bir array dizisi oldu
 $fileName = end($filenameArray);	// $filenameArray array olan değişkeninin son değeri alındı.
