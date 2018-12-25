@@ -1,0 +1,7 @@
+@charset "utf-8";
+/*
+Kaynak1:	https://www.w3schools.com/css/css_overflow.asp
+*/
+fieldset { overflow: scroll; 
+height: 300px;
+}

@@ -1,0 +1,236 @@
+<!doctype html>
+<!--
+#	Kaynak1			 :https://www.phpr.org/php-ile-ajax/#more-856
+#	Kaynak2			 :https://www.w3schools.com/jquery/jquery_get_started.asp
+#	Kaynak3(Jquery $):http://www.zskblog.com/detay.aspx?id=15
+#	Kaynak4			 :https://www.w3schools.com/jquery/html_empty.asp
+#	Kaynak5(Css import):https://www.w3schools.com/css/css_howto.asp
+#	Kaynak6			 :http://learn.jquery.com/using-jquery-core/document-ready/
+#	Kaynak7			 :http://ustaderslik.com/konu/Jquery_Ders-4_.html()_Kullan%C4%B1m%C4%B1
+#	Kaynak8			 :https://learn.jquery.com/using-jquery-core/faq/how-do-i-get-the-text-value-of-a-selected-option/
+#	Kaynak9			 :https://stackoverflow.com/questions/5580616/how-to-change-the-text-of-a-button-in-jquery
+#	Kaynak10		 :https://stackoverflow.com/questions/49256568/html-jquery-disable-button-on-value
+#	Kaynak11		 :https://www.encodedna.com/jquery/set-or-assign-value-to-a-label-dynamically-using-jquery.htm
+#	Kaynak12(Ajax)	 :https://www.askingbox.com/question/jquery-wait-for-response-from-post-or-get-to-write-it-to-a-global-variable
+#	Kaynak13(Xhr.open get parametre)	:https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp
+#	Kaynak14		 :https://www.w3schools.com/jsref/jsref_if.asp
+#	Kaynak15		 :https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_progressbar_labels_js
+#	Kaynak16		 :https://www.yazilimkodlama.com/javascript/javascript-console-log-kullanimi/
+#	Kaynak17		 :https://stackoverflow.com/questions/11179406/jquery-get-value-of-select-onchange
+#	Kaynak18		 :https://www.w3schools.com/jsref/jsref_parseint.asp	
+#	Kaynak19		 :https://www.trkodlama.com/makaleler/jquery-ile-checkbox-kontrolu-207.html
+#	Kaynak20(XMLHttpRequest)	 :https://stackoverflow.com/questions/7740646/jquery-read-ajax-stream-incrementally
+#	Kaynak21		 :https://stackoverflow.com/questions/10877930/how-to-get-the-unique-items-in-jquery/10878161#10878161
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<title>Unzip Resume Create by ÇBP @2018</title>
+<link rel="stylesheet" type="text/css" href="css.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://raw.github.com/ilinsky/xmlhttprequest/master/XMLHttpRequest.js"></script>
+<script>
+	// A $( document ).ready() block.
+$( document ).ready(function() {
+    console.log( "ready!" );
+	$.get('ajax.php', {mod: 2}, function (gelen_cevap) {
+      $('#maxexecutiontime').html(gelen_cevap);
+});
+	$('select').on('change', function() {	// Kaynak17
+  		$( "#tamamlananislem" ).text("0");	// Default 0 değerini ata
+  		$( "#lbl_zipnumfiles" ).text("0");	// Default 0 değerini ata
+		$('#cikti').empty(); // Çıktı ekranını temizle
+  
+});
+	//Kaynak19
+	$("#sec").click(function(){
+        if( $("#sec").is(':checked') ) {	//Kaynak19
+			var kaynakdizin = $('input[name="txt_dizin"]').val();
+			$('input[name="txt_extractdir"]').prop("disabled", true);
+			$('input[name="txt_extractdir"]').val(kaynakdizin);
+            //alert("Seçim kutusu işaretlendi.." + kaynakdizin);
+        }
+        else {
+			$('input[name="txt_extractdir"]').prop("disabled", false);
+            //alert("Seçim kutusu işareti kaldırıldı");
+        }
+});
+	
+	});
+	</script>
+<script>	
+	function Ziplistuygula() {
+		dizin = $('input[name="txt_dizin"]').val();
+   $.get('ajax.php', {dizin: dizin, mod: 1}, function (gelen_cevap) {
+	  $('#ziplistselect').empty();
+      $('#ziplistselect').html(gelen_cevap);
+   });
+}
+	
+	function ZipNumfiles() {
+		$( "#tamamlananislem" ).text("0");	// Default 0 değerini ata
+		dizin = $('input[name="txt_dizin"]').val();
+		secilizip = $( "#ziplistselect option:selected" ).text();	//Kaynak8
+   $.get('ajax.php', {dizin: dizin, secilizip: secilizip, mod: 3}, function (gelen_cevap) { 
+      $('#zipnumfiles').html(gelen_cevap);
+   });
+}
+	
+	function Uygula() {
+		var dizin = $('input[name="txt_dizin"]').val();
+		var extractdir = $('input[name="txt_extractdir"]').val();
+		var secilizip = $( "#ziplistselect option:selected" ).text();	//Kaynak8
+		var toplamindex = $( "#lbl_zipnumfiles" ).text();	//Kaynak 11
+		var tamamlananindex = $( "#tamamlananislem" ).text();
+		// Toplamindex değeri 0 ise ZipNumfilesi yükle
+		
+		if (toplamindex === "0") { //Kaynak14
+			ZipNumfiles();
+			}
+		
+		$('#basla').prop('disabled', true);	//Kaynak10
+		$('#basla').text("İşlem Devam Ediyor...");	//Kaynak9
+		
+		//$('#cikti').empty();
+		// Kaynak20
+		var xhr = new XMLHttpRequest();
+    xhr.open('GET', "ajax.php?dizin=" +dizin + "&extractdir=" + extractdir + "&secilizip=" +secilizip + "&tamamlananindex=" + tamamlananindex + "&mod=4", true);	//Kaynak13
+    xhr.send(null);
+    var timer;
+    timer = window.setInterval(function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            window.clearTimeout(timer);
+            $('#cikti').append('done <br />');
+		// Tamamlanan işleme bak eğer eşit değilse tekrar post yap
+		var toplamindex = parseInt($( "#lbl_zipnumfiles" ).text());	//Kaynak 18
+		var tamamlananindex = parseInt($( "#tamamlananislem" ).text());	//Kaynak 18
+			if (tamamlananindex < toplamindex) {
+  			Uygula();	// Tekrar post yap	
+			} else {
+			// Tamamlanan işlem ile numfiles birbirine eşit işlem tamam
+			// Çıktı alanında sadeleştirme yapıyoruz, aynı satırlar var --> Kaynak21
+			var list = {};
+					$('#cikti li').each(function() {
+    				var id = $(this).attr('id');
+    				if (list[id])
+        				$(this).remove();
+    				else
+        				list[id] = $(this);
+					});
+			$('#cikti').html(list);
+		// BAŞLA butonunu aktif hale getirelim tekrar Default ayarlarına dönüldü..
+		$('#basla').prop('disabled', false);	//Kaynak10
+		$('#basla').text("BAŞLA");	//Kaynak9	
+			}
+			
+        }
+        //$('#cikti').append('state: ' + xhr.readyState + '<br />');
+        //console.log(xhr.responseText);
+        //$('#cikti').append('data: ' + xhr.responseText + '<br />');
+		//$('#cikti').empty();
+		$('#cikti').append(xhr.responseText);
+    }, 1000);
+		
+}
+</script>
+<script>
+	// Kaynak15: Progressbar move
+function move(width) {
+  var elem = document.getElementById("myBar");
+  
+    //if (width >= 100) {
+      //console.log("Tamamlandı: 100%");	// Kaynak16
+    //} else {
+      //width++; 
+      elem.style.width = width + '%'; 
+      elem.innerHTML = width * 1  + '%';
+    //} 
+}
+</script>
+<link href="css.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div>
+<table width="%100" border="0" class="w3-table-all w3-tiny">
+  <tbody>
+    <tr>
+      <td>Dizin</td>
+      <td>:</td>
+      <td><input name="txt_dizin" type="text" class="w3-input w3-border w3-round" id="textfield" value="."></td>
+		<td>Not:<strong><font color="red">&quot;.&quot;</font></strong> Çalışılan dizin</td>
+    </tr>
+    <tr>
+      <td>Extract Directory</td>
+      <td>:</td>
+      <td><input name="txt_extractdir" type="text" disabled="disabled" class="w3-input w3-border w3-round w3-sand" id="textfield2" value="."></td>
+      <td><input class="w3-check" name="checkbox" type="checkbox" id="sec" checked="checked">
+        <strong class="w3-text-blue-gray"><u>Üstteki dizin ile aynı olsun</u></strong><u></u></td>
+    </tr>
+    <tr>
+      <td>Seçili Zip Dosyası</td>
+      <td>:</td>
+      <td><select class="w3-select w3-border" name="ziplist" id="ziplistselect">
+        <option value="1">ss</option>
+      </select></td>
+      <td><input class="w3-button w3-round w3-tiny w3-black" type="button" name="button" id="button" value="Yükle" onclick="Ziplistuygula()"></td>
+    </tr>
+    <tr>
+      <td>Zip dosyası içindeki toplam dosya sayısı</td>
+      <td>:</td>
+      <td> <div class="w3-pink w3-round w3-tangerine w3-small">
+		  <div id="zipnumfiles" class="w3-margin-left">0</div>
+</div> </td>
+      <td><button class="w3-button w3-round w3-khaki" onClick="ZipNumfiles()">Yükle</button></td>
+    </tr>
+    <tr>
+      <td>Max Execution Time</td>
+      <td>:</td>
+      <td><div class="w3-green w3-round w3-tangerine w3-small">
+        <div class="w3-margin-left" id="maxexecutiontime">0</div>
+      </div></td>
+      <td>&nbsp;</td>
+    </tr>
+	<tr>
+	  <td>Geçen Süre (saniye)</td>
+		<td>:</td>
+		<td><div class="w3-blue w3-round w3-tangerine w3-l">
+		  <div class="w3-margin-left" id="executiontime">0</div>
+	    </div></td>
+	  </tr>
+	  <tr>
+	  <td>Tamamlanma Yüzdesi</td>
+	  <td>:</td>
+	  <td>
+  <div class="w3-light-grey w3-large">
+  <div id="myBar" class="w3-container w3-yellow w3-center" style="width:0%">0%</div>
+</div>
+  </td>
+	  </tr>
+	  <tr>
+	  <td>Tamamlanan İşlem</td>
+		  <td>:</td>
+		  <td><div class="w3-black w3-round w3-tangerine w3-small">
+		    <div class="w3-margin-left" id="maxexecutiontime2">
+			  <label id="tamamlananislem">0</label>
+				<label> / </label>
+			  <label id="lbl_zipnumfiles">0</label>
+			</div>
+	      </div></td>
+	
+	  </tr>
+	  <tr>
+	  <td>Ready ?</td>
+	<td>:</td>
+	<td><button id="basla" class="w3-button w3-round w3-teal" onClick="Uygula()">BAŞLA</button></td>
+	  </tr>
+  </tbody>
+</table>
+</div>
+<fieldset>
+  <legend>Çıktı:</legend>
+<div id="cikti"></div>
+</fieldset>
+</body>
+</html>
