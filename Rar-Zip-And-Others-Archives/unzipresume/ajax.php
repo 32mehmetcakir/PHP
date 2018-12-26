@@ -2,8 +2,8 @@
 # Kaynak1:	https://wpguru.co.uk/2014/03/how-to-list-a-directory-in-php-and-only-show-zip-files/
 # Kaynak2:	https://stackoverflow.com/questions/8562398/get-max-execution-time-in-php-script
 # Kaynak3:	http://php.net/manual/en/ziparchive.extractto.php#99509
-#			http://php.net/manual/en/ziparchive.extractto.php	
-#			http://php.net/manual/tr/class.ziparchive.php
+# Kaynak3-1:http://php.net/manual/en/ziparchive.extractto.php	
+# Kaynak3-2:http://php.net/manual/tr/class.ziparchive.php
 # Kaynak4:	http://www.bymega.com/php-trim-ltrim-ve-rtrim-fonksiyonlarinin-kullanimi/
 # Kaynak5:	https://stackoverflow.com/questions/535020/tracking-the-script-execution-time-in-php
 # Kaynak6:	https://stackoverflow.com/questions/7740646/jquery-read-ajax-stream-incrementally
@@ -11,14 +11,14 @@
 # Kaynak8:	https://stackoverflow.com/questions/1045845/how-to-call-a-javascript-function-from-php
 
 $time1 = microtime(true);	//Kaynak5
-$max_time = ini_get("max_execution_time");
+$max_time = ini_get("max_execution_time");	//Kaynak2
 $mod = $_GET['mod'];		// 0: test
 							// 1: ziplist
 							// 2: Get max execution time 
 							// 3: Get ZipNumFiles
 							// 4: Extract
 // Fonksiyonlar
-//	1) İlgili dizindeki zip dosyalarının listesini verir
+//	1) İlgili dizindeki zip dosyalarının listesini verir	--> Kaynak1
 function list_zipfiles($mydirectory) {
 	
 	// directory we want to scan
@@ -47,17 +47,16 @@ elseif ($mod == 2){
 elseif ($mod == 3){
 	$dizin = rtrim($_GET['dizin'], '/');	//Kaynak4
 	$zipfile = $_GET['secilizip'];
-	$za = new ZipArchive();	//Kaynak3
+	$za = new ZipArchive();	//Kaynak3-2
 	$za->open($dizin . '/' . $zipfile);
 	echo $za->numFiles;
-	echo "<script>$('#lbl_zipnumfiles').text(" . $za->numFiles . ")</script>";
+	echo "<script>$('#lbl_zipnumfiles').text($za->numFiles)</script>";	//Kaynak8
 	$za->close();
 	// Excecution time değerini ata	//Kaynak5
 	$time2 = microtime(true);
 	
 	echo "<script>$('#executiontime').html(" . ($time2 - $time1) . ")</script>"; // script execution time: //value in seconds
 }
-
 elseif ($mod == 4){
 	// İşlemler sürerken anında Jquery ile anlık çekiyoruz
 	// Kaynak6
@@ -96,7 +95,7 @@ elseif ($mod == 4){
 	If you want to extract one file at a time, you can use this:
 	*/
     $zip = new ZipArchive;	//Kaynak3
-    if ( $zip->open( $zipfile ) === true)
+    if ( $zip->open($dizin . '/' . $zipfile ) === true)
     {
 		$zipnumfiles = $zip->numFiles;
         for ( $i=$tamamlananindex; $i < $zipnumfiles; $i++ )
@@ -112,9 +111,7 @@ elseif ($mod == 4){
 			// Tamamlanma yüzdesini hesapla
 			$tamamlamayuzdesi = ceil((($i+1) / $zipnumfiles) * 100);	//Kaynak7
 			// Javascript ile mybar ve move fonksiyonu ile güncelle		//Kaynak8
-			echo '<script type="text/javascript">',
-     		'move('. $tamamlamayuzdesi .');',
-     		'</script>';
+			echo "<script type='text/javascript'>move($tamamlamayuzdesi);</script>";
 			// Excecution time değerini ata	//Kaynak5
 			$time2 = microtime(true);
 			echo "<script>$('#executiontime').text(" . ($time2 - $time1) . ")</script>"; // script execution time: //value in seconds
