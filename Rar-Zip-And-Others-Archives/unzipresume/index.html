@@ -20,7 +20,10 @@
 #	Kaynak18		 :https://www.w3schools.com/jsref/jsref_parseint.asp	
 #	Kaynak19		 :https://www.trkodlama.com/makaleler/jquery-ile-checkbox-kontrolu-207.html
 #	Kaynak20(XMLHttpRequest)	 :https://stackoverflow.com/questions/7740646/jquery-read-ajax-stream-incrementally
-#	Kaynak21		 :https://stackoverflow.com/questions/10877930/how-to-get-the-unique-items-in-jquery/10878161#10878161
+#	Kaynak21		 :https://stackoverflow.com/questions/10877930/how-to-get-the-unique-items-in-jquery/10878017#10878017
+#	Kaynak22		 :http://ustaderslik.com/konu/Jquery_Ders-31_scrollTop()_ve_scrollLeft()_Kullan%C4%B1m%C4%B1
+#	Kaynak22-1		 :https://css-tricks.com/forums/topic/scrollto-not-working-in-firefox/
+#	Kaynak22-1		 :https://codepen.io/senff/pen/ILgxw
 -->
 <html>
 <head>
@@ -32,15 +35,15 @@
 <script src="https://raw.github.com/ilinsky/xmlhttprequest/master/XMLHttpRequest.js"></script>
 <script>
 	// A $( document ).ready() block.
-$( document ).ready(function() {
-    console.log( "ready!" );
-	$.get('ajax.php', {mod: 2}, function (gelen_cevap) {
-      $('#maxexecutiontime').html(gelen_cevap);
+$( document ).ready(function() {	//Kaynak6
+    console.log( "ready!" );	//Kaynak16
+	$.get('ajax.php', {mod: 2}, function (gelen_cevap) {	//Kaynak1
+      $('#maxexecutiontime').html(gelen_cevap);	//Kaynak7
 });
 	$('select').on('change', function() {	// Kaynak17
   		$( "#tamamlananislem" ).text("0");	// Default 0 değerini ata
   		$( "#lbl_zipnumfiles" ).text("0");	// Default 0 değerini ata
-		$('#cikti').empty(); // Çıktı ekranını temizle
+		$('#cikti').empty(); // Çıktı ekranını temizle --> Kaynak4
   
 });
 	//Kaynak19
@@ -83,8 +86,7 @@ $( document ).ready(function() {
 		var secilizip = $( "#ziplistselect option:selected" ).text();	//Kaynak8
 		var toplamindex = $( "#lbl_zipnumfiles" ).text();	//Kaynak 11
 		var tamamlananindex = $( "#tamamlananislem" ).text();
-		// Toplamindex değeri 0 ise ZipNumfilesi yükle
-		
+		// Toplamindex değeri 0 ise ZipNumfilesi yükle	
 		if (toplamindex === "0") { //Kaynak14
 			ZipNumfiles();
 			}
@@ -92,7 +94,6 @@ $( document ).ready(function() {
 		$('#basla').prop('disabled', true);	//Kaynak10
 		$('#basla').text("İşlem Devam Ediyor...");	//Kaynak9
 		
-		//$('#cikti').empty();
 		// Kaynak20
 		var xhr = new XMLHttpRequest();
     xhr.open('GET', "ajax.php?dizin=" +dizin + "&extractdir=" + extractdir + "&secilizip=" +secilizip + "&tamamlananindex=" + tamamlananindex + "&mod=4", true);	//Kaynak13
@@ -110,15 +111,18 @@ $( document ).ready(function() {
 			} else {
 			// Tamamlanan işlem ile numfiles birbirine eşit işlem tamam
 			// Çıktı alanında sadeleştirme yapıyoruz, aynı satırlar var --> Kaynak21
-			var list = {};
-					$('#cikti li').each(function() {
-    				var id = $(this).attr('id');
-    				if (list[id])
-        				$(this).remove();
-    				else
-        				list[id] = $(this);
-					});
-			$('#cikti').html(list);
+			var items = [], txt;
+			$( '#cikti li' ).each( function() {
+    		// Cache the text to avoid retrieving twice the same property
+    		// With this:
+				txt = $.trim( $( this ).text() );
+
+    		// If the text isn't in the array, add it
+    		if ( $.inArray( txt, items ) === -1 ) {
+        		items.push( "<li class='w3-margin-left'>" + txt + "</li>");
+    			}
+			} );
+			$('#cikti').html(items);
 		// BAŞLA butonunu aktif hale getirelim tekrar Default ayarlarına dönüldü..
 		$('#basla').prop('disabled', false);	//Kaynak10
 		$('#basla').text("BAŞLA");	//Kaynak9	
@@ -128,8 +132,11 @@ $( document ).ready(function() {
         //$('#cikti').append('state: ' + xhr.readyState + '<br />');
         //console.log(xhr.responseText);
         //$('#cikti').append('data: ' + xhr.responseText + '<br />');
-		//$('#cikti').empty();
+		
 		$('#cikti').append(xhr.responseText);
+		// Scroll'u en aşağı yolluyoruz --> Kaynak22
+		var scrollkonum = $("#cikti").height();	//Scrollun en dip noktasını buluyoruz
+		$('html,body,fieldset,div').animate({scrollTop:scrollkonum}, 50);	//bunun yavaşça inmesi için -> Kaynak22-1	
     }, 1000);
 		
 }
@@ -148,7 +155,6 @@ function move(width) {
     //} 
 }
 </script>
-<link href="css.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -172,7 +178,6 @@ function move(width) {
       <td>Seçili Zip Dosyası</td>
       <td>:</td>
       <td><select class="w3-select w3-border" name="ziplist" id="ziplistselect">
-        <option value="1">ss</option>
       </select></td>
       <td><input class="w3-button w3-round w3-tiny w3-black" type="button" name="button" id="button" value="Yükle" onclick="Ziplistuygula()"></td>
     </tr>
@@ -218,7 +223,6 @@ function move(width) {
 			  <label id="lbl_zipnumfiles">0</label>
 			</div>
 	      </div></td>
-	
 	  </tr>
 	  <tr>
 	  <td>Ready ?</td>
