@@ -1,8 +1,19 @@
 <?php
+#	Kaynak1:	http://php.net/manual/tr/function.isset.php
+#	Kaynak2:	http://www.aydinmahmut.com/json-nedir-json-parse-php-jquery/
+#	Kaynak3:	http://php.net/manual/tr/function.curl-close.php
+
+//Kaynak1
+if (!isset($_GET['sourcelink']))	{
+	echo "Erişim yetkiniz yok!\n";
+	exit();
+}
+$sourcelink = $_GET['sourcelink'];
+
 error_reporting(0);
 
-$url = "https://mega.nz/#!g8AFgLTa!OOU2bSmlMC7eDTGqmosemNh5busr5cC0eIITLMgZFq0";
-preg_match("/!(.+?)!/", $url, $output_array);
+//$url = "https://mega.nz/#!g8AFgLTa!OOU2bSmlMC7eDTGqmosemNh5busr5cC0eIITLMgZFq0";
+preg_match("/!(.+?)!/", $sourcelink, $output_array);
 $fileID = $output_array[1];
 $domain = "meganz";
 $lang = "en";
@@ -30,8 +41,12 @@ $value = array(
  
   $result=curl_exec($ch);
 
+//	Kaynak3
+// cURL tanıtıcısını kapatıp sistem özkaynaklarını serbest bırakalım
+curl_close($ch);
+echo $result;	// json formatında gönderiyoruz.	--> Kaynak2
 
- 
+ /*
   $jsonResult = json_decode($result);
   $directLink = $jsonResult[0]->g;
   $fileSize = $jsonResult[0]->s;
@@ -40,4 +55,5 @@ $value = array(
   echo '<br>';
   echo "File Size: $fileSize bytes";
   echo '<br>';
+  */
   ?>

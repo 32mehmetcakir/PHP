@@ -1,0 +1,143 @@
+<!doctype html>
+<!-- Kaynak1:	https://materializecss.com/getting-started.html -->
+<!-- Kaynak2:	https://materializecss.com/text-inputs.html	-->
+<!-- Kaynak3:	https://materializecss.com/buttons.html	-->
+<!-- Kaynak4:	https://www.w3schools.com/jquery/jquery_get_started.asp	-->
+<!-- Kaynak5:	https://materializecss.com/text-inputs.html	-->
+<!-- Kaynak6:	https://materializecss.com/collections.html	-->
+<!-- Kaynak7:	https://materializecss.com/color.html	-->
+<!-- Kaynak8:	https://materializecss.com/typography.html	-->
+<!-- Kaynak9:	https://www.w3schools.com/jquery/event_click.asp	-->
+<!-- Kaynak10:	http://learn.jquery.com/using-jquery-core/document-ready/	-->
+<!-- Kaynak11:	https://www.phpr.org/php-ile-ajax/#more-856	-->
+<!-- Kaynak12:	http://www.aydinmahmut.com/json-nedir-json-parse-php-jquery/	-->
+<!-- Kaynak13:	https://zahidefe.net/2017/01/10/javascript-ile-panoya-kopyalama-uygulamasi/	-->
+<!-- Kaynak14:	https://gist.github.com/lanqy/5193417#file-bytestosize-js	-->
+<!-- Kaynak15:	https://stackoverflow.com/questions/49256568/html-jquery-disable-button-on-value	-->
+<!-- Kaynak16:	https://stackoverflow.com/questions/5580616/how-to-change-the-text-of-a-button-in-jquery	-->
+<!-- Kaynak17:	https://materializecss.com/preloader.html	-->
+<!-- Kaynak18:	https://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null/21273362#21273362	-->
+<!-- Kaynak19:	https://materializecss.com/toasts.html	-->
+<html>
+<head>
+<title>Mega.nz Direct Link Generator Created By ÇBP @2018</title>
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0"/>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--	Kaynak4	-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<!-- Javascript/Jquery Fonksiyonlar -->
+	<script>
+	$( document ).ready(function() {	//Kaynak10
+	// Preloader defaut olarak görünmesin
+		$( ".progress" ).hide();	//	Kaynak17
+		
+	// Temizle butonu olayı
+	$("#btn_clear").click(function(){	//Kaynak9
+		$("#meganzsourcelink").val(null);
+		$("#textarea1").val(null);
+		$("#filesize").text("?");
+	});
+	// Generate butonu olayı
+	$("#btn_generate").click(function(){	//Kaynak9
+		$( ".progress" ).show();	//	Kaynak17
+		$("#btn_generate").prop("disabled", true);	// Generating...	//Kaynak15
+		$("#btn_generate").text("Generating...");	// Kaynak16
+		$.get('mega.nz_directlink_generate.php', {sourcelink: $("#meganzsourcelink").val()}, function (gelen_cevap) {	//Kaynak11
+			var parse_data=$.parseJSON(gelen_cevap);	//Kaynak12
+			// Kaynak18 -->parse_data[0].s değeri undefined veya null ise
+			if (parse_data[0].s === undefined || parse_data[0].s === null) {
+     		// do something
+				// Kaynak19
+				// 'rounded' is the class I'm applying to the toast
+  				M.toast({html: "Hata!, Mega.nz Link: alanı boş olamaz! ya da hatalı girildi! <i class='material-icons'>info_outline</i>", classes: 'rounded'});
+				}
+			else {
+				$('#textarea1').val(parse_data[0].g);	//Kaynak12
+				$("#filesize").text(bytesToSize(parse_data[0].s));	//Kaynak12
+			}
+      		
+			$("#btn_generate").prop("disabled", false);	// Default
+			$("#btn_generate").html("Generate<i class='material-icons right'>send</i>");	// Default -> Generate
+			$( ".progress" ).hide();	//	Kaynak17
+});
+	});
+	// Panoya kopyala butonu olayı
+	$("#btn_panoyakopyala").click(function(){	//Kaynak9
+	
+		$('#textarea1').select();	//Kaynak13
+		var kopyala = document.execCommand('copy');	//Kaynak13
+		M.toast({html: (kopyala ? 'Panoya kopyalandı :)' : 'Panoya kopyalanamadı :(')});
+		});
+	});
+	</script>
+	<script>
+	// Fonksiyonlar
+		// from http://scratch99.com/web-development/javascript/convert-bytes-to-mb-kb/
+		//	Kaynak14
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i == 0) return bytes + ' ' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+};
+	</script>
+</head>
+
+<body>
+<!--	Kaynak6	-->
+	<ul class="collection">
+      <li class="collection-item indigo lighten-5">
+		 <!--	Kaynak2	-->
+	<div class="row">
+    <div class="input-field z-depth-1-half">
+      <input value="" id="meganzsourcelink" type="text" class="validate">
+      <label class="active" for="first_name2">Mega.nz Link:</label>
+    </div>
+  	</div>
+	  </li>
+      <li class="collection-item">
+		<!--	Kaynak3	-->
+	  <button id="btn_generate" class="btn waves-effect waves-light" type="submit" name="action">Generate
+    <i class="material-icons right">send</i>
+  </button>
+		  <!--	Kaynak17	-->
+		  <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+	  </li>
+	<li class="collection-item purple lighten-5">
+		<!--	Kaynak8	-->
+		<blockquote class="black-text">Generated Direct Link:</blockquote>
+	  </li>
+      <li class="collection-item">
+		<!--	Kaynak5	-->
+	<div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12 z-depth-1-half">
+          <textarea id="textarea1" style="height: 150px;" readonly="true" class="materialize-textarea"></textarea>
+          <label for="textarea1">Direct link...</label>
+        </div>
+      </div>
+    </form>
+  </div>
+		  <!--	Kaynak8	-->
+		  <blockquote>Dosya Boyutu: <label id="filesize" class="red-text">?</label> 
+		  </blockquote>
+	  </li>
+		<li class="collection-item">
+			<!--	Kaynak7	-->
+		<a id="btn_panoyakopyala" class="waves-effect brown btn-small"><i class="material-icons left">content_copy</i>Panoya Kopyala</a>
+		<a id="btn_clear" class="waves-effect grey darken-4 btn-small"><i class="material-icons left">clear</i>Temizle</a>
+		</li>
+</ul>
+</body>
+</html>
